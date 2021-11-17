@@ -1,0 +1,13 @@
+hdfs dfs -put crypt-1.0-SNAPSHOT-jar-with-dependencies.jar  /tmp/
+
+CREATE FUNCTION udf_decrypt AS 'yore.DecryptUDF' USING jar 'hdfs:/app/udf-lib/udf_decrypt-jar-with-dependencies.jar';
+
+CREATE FUNCTION udf_encrypt AS 'com.pd.hive.EncryptUDF' USING jar 'hdfs:/tmp/crypt-1.0-SNAPSHOT-jar-with-dependencies.jar';
+
+select *, udf_decrypt(aaa) from test;
+
+-- 查看函数说明
+DESCRIBE FUNCTION EXTENDED udf_decrypt ;
+
+-- 解密数据
+DESCRIBE FUNCTION EXTENDED udf_decrypt ;
